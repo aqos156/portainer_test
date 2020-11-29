@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  my-app:
+    image: containous/whoami:latest
+    deploy:
+      placement:
+        constraints:
+         - node.role == worker
+      replicas: 3
+      labels:
+        - traefik.http.routers.my-app.rule=Host(`test.arbeiter.cloud`)
+        - traefik.http.services.my-app-service.loadbalancer.server.port=80
+    networks:
+     - web
+
+networks:
+  web:
+    external: true
